@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
 )
 
 func main() {
@@ -15,25 +13,16 @@ func main() {
 	fmt.Printf("Arguments with length %d\n", len(tasks))
 	fmt.Println(tasks)
 
-	var head CommandDirective = startList(0, 1, tasks[0])
+	var firstTask *CommandDirective = initFromArray(tasks)
 
-	for i := 1; i < len(tasks); i++ {
-		if i == 1 {
-			var _ = createNode(i, &head, 1, tasks[i])
-		}
-
+	if firstTask == nil {
+		log.Fatal("no tasks provided")
 	}
 
-	cmd := exec.Command("echo", "hello world")
+	var taskCount int = getLength(firstTask)
+	fmt.Printf("Number of tasks: %d\n", taskCount)
 
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	fmt.Println("Let's run the first command")
+	commandExec(firstTask.arg)
 
-	err := cmd.Run()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("%s", out.String())
 }
