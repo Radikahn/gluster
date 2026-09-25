@@ -1,4 +1,6 @@
-[positional-arguments]
 dev:
-	go build
-	./gluster.git $0
+	go build -o gluster ./cmd
+	./gluster ls
+
+api:
+    go run api/main.go

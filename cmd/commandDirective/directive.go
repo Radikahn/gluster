@@ -1,16 +1,16 @@
 // directive.go is responsible for the priority based linked list system that tasks can be placed into.
 // `args` are the main content type in a CommandDirective, they are captures as a string but can be anything from a command
 // to any piece of useful instruction.
-package main
+package commandDirective
 
 import (
-	"strconv"
+	"github.com/google/uuid"
 )
 
 // CommandDirective is the object/node single that within the linked list
 // A CommandDirective node holds an id, the next, the prev, the priority (which is optional), and the arg that node is responsible for
 type CommandDirective struct {
-	id       string
+	id       string // this is a uuid representing the entire list the node is a part of
 	next     *CommandDirective
 	prev     *CommandDirective
 	priority int
@@ -52,28 +52,29 @@ func (curr *CommandDirective) remove() {
 }
 
 // Initialization function to start a CommandDirective linked list.
-// This will return a *CommandDirective that is labeled as a head
+// This will return a *CommandDirective that is labeled as a head and the Id of the linked list
 // `createNode` should be used for all other additions to nodes within the same linked list
 func startList(
-	id string,
 	priority int,
 	cost int,
 	arg string,
-) *CommandDirective {
-	return &CommandDirective{id: id, priority: priority, arg: arg}
+) (*CommandDirective, string) {
+	var id = uuid.NewString()
+	var head = CommandDirective{id: id, priority: priority, arg: arg}
+
+	return &head, id
 }
 
 // Create a new node right after the current for
 // the respective linked list the node belongs to
 func createNode(
-	id string,
 	prev *CommandDirective,
 	priority int,
 	cost int,
 	arg string,
 ) *CommandDirective {
 	newNode := &CommandDirective{
-		id:       id,
+		id:       prev.id, //inheret the id of the previous node
 		next:     prev.next,
 		prev:     prev,
 		priority: priority,
@@ -92,7 +93,7 @@ func createNode(
 
 // Get length of linked list. Be cautious if your linked list is extremely long,
 // this algorithim runs with O(n)
-func getLength(head *CommandDirective) int {
+func GetLength(head *CommandDirective) int {
 	var curr *CommandDirective = head
 	var count int = 1 // Count starts at one to account for head
 
@@ -109,17 +110,17 @@ func getLength(head *CommandDirective) int {
 // Returns a *CommandDirective that is the head of the linked list, or nil if `tasks` is empty
 //
 // All costs are set to 1 by default until cost eval is ran
-func initFromArray(tasks []string) *CommandDirective {
+func InitFromArray(tasks []string) (*CommandDirective, string) {
 	if len(tasks) == 0 {
-		return nil
+		return nil, ""
 	}
 
-	head := startList(strconv.Itoa(0), 1, 1, tasks[0])
+	head, id := startList(1, 1, tasks[0])
 	prev := head
 
 	for i := 1; i < len(tasks); i++ {
-		prev = createNode(strconv.Itoa(i), prev, 1, 1, tasks[i])
+		prev = createNode(prev, 1, 1, tasks[i])
 	}
 
-	return head
+	return head, id
 }
