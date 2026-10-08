@@ -1,6 +1,8 @@
 // directive.go is responsible for the priority based linked list system that tasks can be placed into.
 // `args` are the main content type in a CommandDirective, they are captures as a string but can be anything from a command
 // to any piece of useful instruction.
+// The directive node have both prev and next items. However they are made in a angostic manner, meaning the organization of these nodes is free to be changed
+// Additionally the priority can be altered to make this system priority based (priority queue)
 package commandDirective
 
 import (
@@ -18,24 +20,24 @@ type CommandDirective struct {
 	arg      string
 }
 
-func (curr *CommandDirective) getNext() *CommandDirective {
+func (curr *CommandDirective) GetNext() *CommandDirective {
 	return curr.next
 }
 
-func (curr *CommandDirective) getPrev() *CommandDirective {
+func (curr *CommandDirective) GetPrev() *CommandDirective {
 	return curr.prev
 }
 
-func (curr *CommandDirective) isHead() bool {
+func (curr *CommandDirective) IsHead() bool {
 	return curr.prev == nil
 }
 
-func (curr *CommandDirective) isTail() bool {
+func (curr *CommandDirective) IsTail() bool {
 	return curr.next == nil
 }
 
 // remove unlinks curr from its list and clears its links.
-func (curr *CommandDirective) remove() {
+func (curr *CommandDirective) Remove() {
 	next := curr.next
 	prev := curr.prev
 
