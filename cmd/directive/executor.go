@@ -3,7 +3,7 @@
 // In the executor you get to choose what data structure you are working with for directives
 // Executors can be mixed and matched between devices
 
-package commandDirective
+package directive
 
 import (
 	"github.com/google/uuid"

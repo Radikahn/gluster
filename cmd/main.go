@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/Radikahn/gluster/cmd/commandDirective"
 	"github.com/Radikahn/gluster/cmd/device"
 )
 
@@ -21,20 +19,6 @@ func main() {
 		showHelpDialog()
 		os.Exit(1)
 	}
-
-	// At the moment the order for if a Device or CommanDirective comes first is
-	// not determined
-	var firstTask, currentDirectiveId = commandDirective.InitFromArray(tasks)
-	fmt.Printf("current list id: %s \n", currentDirectiveId)
-
-	if firstTask == nil {
-		log.Fatal("No tasks provided")
-		showHelpDialog()
-	}
-
-	var taskCount int = commandDirective.GetLength(firstTask)
-	fmt.Printf("Number of tasks: %d \n", taskCount)
-
 	//Register device
 	var currentDevice, _, _ = device.RegisterDevice(
 		"mainPC",
@@ -43,8 +27,6 @@ func main() {
 		globalDevices,
 	)
 	device.ActivateDevice(currentDevice)
-
-	device.AssignDirective(currentDirectiveId, currentDevice)
 
 }
 
