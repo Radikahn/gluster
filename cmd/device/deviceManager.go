@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/Radikahn/gluster/cmd/events"
 	"github.com/google/uuid"
 )
 
@@ -11,13 +12,13 @@ import (
 // - Holds information for each registered device under the current Gluster instance
 // - Not recommended to make your own instances of the `Device` struct, instead register them through `RegisterDevice`
 type Device struct {
-	id          string
-	name        string
-	os          string
-	directiveId string
-	totalLoad   int
-	address     string
-	active      bool
+	id        string
+	name      string
+	os        string
+	address   string
+	eventBus  *events.EventBus
+	totalLoad int
+	active    bool
 }
 
 // Register a device to the Gluster instance.
@@ -51,16 +52,6 @@ func RegisterDevice(name string, os string, address string, globalDevices map[st
 	)
 
 	return newDevice, id, nil
-}
-
-// Assign a CommandDirective linked list ID to the given device
-func AssignDirective(directiveId string, device *Device) {
-	if !device.active {
-		slog.Warn("[DEVICE]: device is NOT active, this task will NOT run", "name", device.name)
-	}
-
-	slog.Info("[DEVICE]: assigning command directive to device", "directiveId", directiveId, "name", device.name)
-	device.directiveId = directiveId
 }
 
 // Set the provided device to active

@@ -1,12 +1,15 @@
-package main
+package api
 
 import (
+	"log"
+
 	"github.com/Radikahn/gluster/api/routes/devices"
 	"github.com/Radikahn/gluster/api/routes/system"
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func StartOrchestratorAPI(logger log.Logger) {
+	logger.Print("[ORCHESTRATOR]: Starting Orchestrator API...")
 	router := gin.Default()
 
 	// base route!
@@ -21,4 +24,5 @@ func main() {
 	devices.RegisterRoutes(api.Group("/devices"))
 
 	router.Run()
+	logger.Print("[ORCHESTRATOR]: Api Started!")
 }

@@ -1,14 +1,14 @@
 package directive
 
-type node struct {
+type queueNode struct {
 	cmd  *CommandDirective
-	next *node
-	prev *node
+	next *queueNode
+	prev *queueNode
 }
 
 type Queue struct {
-	head *node
-	tail *node
+	head *queueNode
+	tail *queueNode
 	size int
 }
 
@@ -19,7 +19,7 @@ func NewQueue() *Queue {
 
 // Push a command to the back of the queue
 func (q *Queue) Push(cmd *CommandDirective) {
-	n := &node{cmd: cmd}
+	n := &queueNode{cmd: cmd}
 
 	if q.tail == nil {
 		//case 1 this node is a new tail (we are initializing a queue)
@@ -28,7 +28,6 @@ func (q *Queue) Push(cmd *CommandDirective) {
 	} else {
 		//case 2 the queue has values in it, adding a tail
 		n.prev = q.tail
-		q.tail.next = n
 		q.tail = n
 	}
 

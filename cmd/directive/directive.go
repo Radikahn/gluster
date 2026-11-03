@@ -7,8 +7,9 @@ package directive
 // CommandDirective is the object/node single that within the linked list
 // A CommandDirective node holds an id, the next, the prev, the priority (which is optional), and the arg that node is responsible for
 type CommandDirective struct {
+	// TOOD: find a more optimized method -> basic datastructure types will have up to 8 bits null
 	Id       string // this is a uuid representing the entire data structure
-	Cost     int
 	Arg      string
 	Priority int
+	Cost     int
 }
