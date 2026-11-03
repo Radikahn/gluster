@@ -8,7 +8,7 @@ import (
 )
 
 type CommandInstance struct {
-	command string `json:"command"`
+	Command string `json:"command"`
 }
 
 func StartWorkerAPI(logger log.Logger) {

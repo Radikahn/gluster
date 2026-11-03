@@ -59,5 +59,5 @@ func StartWorkerDaemon() {
 	log.Print("---------------")
 	log.Print("[WORKER]: daemon started")
 
-	api.StartOrchestratorAPI(*log.Default())
+	api.StartWorkerAPI(*log.Default())
 }
