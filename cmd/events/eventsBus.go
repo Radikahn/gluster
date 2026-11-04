@@ -3,6 +3,7 @@
 package events
 
 import (
+	"github.com/Radikahn/gluster/cmd/device"
 	"github.com/Radikahn/gluster/cmd/directive"
 	"github.com/google/uuid"
 )
@@ -15,15 +16,16 @@ import (
 // }
 
 type EventBus struct {
-	id    string
-	queue *directive.Queue
+	id     string
+	device *device.Device
+	queue  *directive.Queue
 }
 
-func NewEventBus() *EventBus {
+func NewEventBus(device *device.Device) *EventBus {
 	id := uuid.NewString()
 	q := directive.NewQueue()
 
-	return &EventBus{id: id, queue: q}
+	return &EventBus{id: id, device: device, queue: q}
 }
 
 // Push an event (commandDirective) to the eventBus
@@ -32,7 +34,9 @@ func (e *EventBus) Push(cmd *directive.CommandDirective) {
 }
 
 // Pop an event (commandDirective) from the eventBus
-func (e *EventBus) Pop() (*directive.CommandDirective, bool) {
+func (e *EventBus) Pop() (*directive.CommandDirective, string, bool) {
 	//TODO: event handler needs to execute Popped command, this function can instead return just a bool
-	return e.queue.Pop()
+	directive, status := e.queue.Pop()
+
+	return directive, e.device.Id, status
 }

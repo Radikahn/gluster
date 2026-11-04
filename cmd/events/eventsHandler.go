@@ -4,3 +4,10 @@
 package events
 
 //TODO: wrap the commandManager functions for executing a command on a machine via SSH
+
+func ExecuteEvent() {
+	// TODO: determine how events will be executed and when!
+	//
+	// Does there need to be a runtime tick system? or is there a way to create a hash watcher?
+	// Something realtime
+}

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Radikahn/gluster/cmd/events"
 	"github.com/google/uuid"
 )
 
@@ -12,12 +11,11 @@ import (
 // - Holds information for each registered device under the current Gluster instance
 // - Not recommended to make your own instances of the `Device` struct, instead register them through `RegisterDevice`
 type Device struct {
-	id        string
-	name      string
-	os        string
-	address   string
-	eventBus  *events.EventBus
-	totalLoad int
+	Id        string
+	Name      string
+	Os        string
+	Address   string
+	TotalLoad int
 	active    bool
 }
 
@@ -37,11 +35,11 @@ func RegisterDevice(name string, os string, address string, globalDevices map[st
 	}
 
 	var newDevice = &Device{
-		id:        id,
-		name:      name,
-		os:        os,
-		totalLoad: 0, //all machines should be initialized with zero load
-		address:   address,
+		Id:        id,
+		Name:      name,
+		Os:        os,
+		TotalLoad: 0, //all machines should be initialized with zero load
+		Address:   address,
 		active:    false,
 	}
 
@@ -56,12 +54,12 @@ func RegisterDevice(name string, os string, address string, globalDevices map[st
 
 // Set the provided device to active
 func ActivateDevice(device *Device) {
-	slog.Info("Activating device", "name", device.name)
+	slog.Info("Activating device", "name", device.Name)
 	device.active = true
 }
 
 // Set the provided device to NOT active
 func DeactivateDevice(device *Device) {
-	slog.Info("Deactivating device", "name", device.name)
+	slog.Info("Deactivating device", "name", device.Name)
 	device.active = false
 }
